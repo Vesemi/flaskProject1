@@ -2,6 +2,8 @@ import sqlite3
 
 CREATE_USERS_TABLE = "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT, surname TEXT);"
 
+CREATE_TASKS_TABLE = "CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY, name TEXT, details TEXT,  );"
+
 INSERT_USER = "INSERT INTO users (name, surname) VALUES (?, ?);"
 
 GET_ALL_USERS = "SELECT * FROM users;"
