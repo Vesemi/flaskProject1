@@ -1,18 +1,16 @@
 import sqlite3
 
-CREATE_USERS_TABLE = "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT, surname TEXT);"
 
-CREATE_TASKS_TABLE = "CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY, name TEXT, details TEXT,  );"
 
-INSERT_USER = "INSERT INTO users (name, surname) VALUES (?, ?);"
 
-GET_ALL_USERS = "SELECT * FROM users;"
 
-GET_USER_BY_NAME = "SELECT * FROM users WHERE name = ?;"
 
-GET_USER_BY_SURNAME = "SELECT * FROM users WHERE surname = ?;"
 
-GET_USER_BY = "SELECT * FROM users WHERE ? = ?;"
+
+
+
+
+
 
 
 def connect():
