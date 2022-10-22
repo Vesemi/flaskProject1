@@ -42,7 +42,7 @@ def get_user_by_surname(connection, surname):
         return connection.execute(GET_USER_BY_SURNAME, (surname,))
 
 
-def get_user_by(connection, column, value):
+def get_user_by(connection, column_name, value):
     with(connection):
-        return connection.execute(GET_USER_BY, (column, value))
+        return connection.execute(GET_USER_BY, (column_name, value))
 

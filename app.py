@@ -6,9 +6,10 @@ app = Flask(__name__)
 connection = database.connect()
 database.create_tables(connection)
 
+
 @app.route('/')
 def index():
-   # text = open('dane/xd.txt').read()
+    # text = open('dane/xd.txt').read()
     return render_template("content.html")
 
 
