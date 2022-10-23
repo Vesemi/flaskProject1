@@ -4,7 +4,7 @@ INSERT_USER = "INSERT INTO users (name, surname) VALUES (?, ?);"
 
 GET_ALL_USERS = "SELECT * FROM users;"
 
-GET_ALL_USER_TASKS = "SELECT * FROM tasks WHERE task_contractor = ?;"
+
 
 GET_USER_BY_NAME = "SELECT * FROM users WHERE name = ?;"
 
@@ -16,6 +16,7 @@ GET_USER_BY = "SELECT * FROM users WHERE ? = ?;"
 def add_user(connection, name, surname):
     with connection:
         connection.execute(INSERT_USER, (name, surname))
+        connection.commit()
 
 
 def get_all_users(connection):
