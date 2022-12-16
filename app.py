@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import database
 
 
@@ -11,6 +11,14 @@ database.create_tables(connection)
 def index():
     # text = open('dane/xd.txt').read()
     return render_template("content.html")
+
+
+@app.route('/users', methods=['POST', 'GET'])
+def users():
+    if request.method == "POST":
+        return "You clicked button"
+    else:
+        return render_template("users.html")
 
 
 @app.route('/xd')
