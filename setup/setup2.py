@@ -28,14 +28,14 @@ def create_nginx_and_gunicorn_files(domena, projekt):
         plik_gunicorn +=l
 
     # Zapisujemy plik gunicorn
-    with open("/etc/systemd/system/" + projekt + '.service') as file2:
+    with open("/etc/systemd/system/" + projekt + '.service', "w") as file2:
         file2.write(plik_gunicorn)
 
     # Restartujemy startujemy serwis flagi, restartujemy nginxa.
     os.system('sudo systemctl start ' + projekt + '.service')
     os.system('sudo systemctl daemon-reload')
     os.system('sudo systemctl restart nginx')
-    os.system('sudo systemctl restart' + projekt + '.service')
+    os.system('sudo systemctl restart ' + projekt + '.service')
 
 
 if __name__ == '__main__':
