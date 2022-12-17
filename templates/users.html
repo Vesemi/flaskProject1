@@ -12,11 +12,11 @@
             <input type="text" autocomplete="off" maxlength="20" required placeholder="Surname" name="surname">
         </label>
 
-        <input type="submit" value="Add User" class="btn">
+        <button type="submit" value="Add User" class="btn btn-primary">
     </form>
 
     {% for user in people %}
-        <li>{{ user[1] }} {{ user[2] }}</li>
+        <li>{{ user[1] }} {{ user[2] }} </li>
     {% endfor %}
 
 

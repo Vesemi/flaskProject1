@@ -29,14 +29,14 @@ def tasks():
     if request.method == "POST":
         form_data = request.form
         return render_template("tasks.html",
-                               name=database.add_task(form_data['name'],
-                                                      form_data['description'],
+                               name=database.add_task(form_data['task_name'],
+                                                      form_data['task_description'],
                                                       form_data['task_creator'],
                                                       form_data['task_contractor']),
                                tasks=database.get_all_tasks())
 
     else:
-        return render_template("tasks.html", people=database.get_all_tasks())
+        return render_template("tasks.html", tasks=database.get_all_tasks())
 
 
 @app.route('/xd')
