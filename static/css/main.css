@@ -1,3 +1,10 @@
 body{
     background-color: cadetblue;
 }
+input:invalid {
+    border: 2px dashed red;
+}
+
+input:valid {
+    border: 2px solid green;
+}

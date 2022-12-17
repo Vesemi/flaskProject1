@@ -14,13 +14,26 @@ def index():
 
 @app.route('/users', methods=['POST', 'GET'])
 def users():
-    people = ['sadasdsad', 'asdasdasd', 'asdasdasdasd']
     if request.method == "POST":
         form_data = request.form
-        database.add_user(form_data['name'], form_data['surname'])
-        return render_template("users.html", name=f"Added user {form_data['name']} {form_data['surname']}", people=database.get_all_users())
+        return render_template("users.html",
+                               name=database.add_user(form_data['name'], form_data['surname']),
+                               people=database.get_all_users())
+
     else:
         return render_template("users.html", people=database.get_all_users())
+
+
+@app.route('/tasks', methods=['POST', 'GET'])
+def tasks():
+    if request.method == "POST":
+        form_data = request.form
+        return render_template("tasks.html",
+                               name=database.add_user(form_data['name'], form_data['surname']),
+                               people=database.get_all_users())
+
+    else:
+        return render_template("tasks.html", people=database.get_all_users())
 
 
 @app.route('/xd')

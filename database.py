@@ -15,10 +15,15 @@ class Database:
             self.connection.execute(tasks.CREATE_TABLE)
 
     def add_user(self, name, surname):
-        self.connection = sqlite3.connect(f'{self.name}.db')
+        if len(str(name)) < 1:
+            return f'failed user {name} {surname} name too short'
+        if len(str(surname)) < 1:
+            return f'failed user {name} {surname} surname too short'
         with self.connection:
+            self.connection = sqlite3.connect(f'{self.name}.db')
             self.connection.execute(users.INSERT_USER, (name, surname))
             self.connection.commit()
+            return f'Added user {name} {surname}'
 
     def get_all_users(self):
         self.connection = sqlite3.connect(f'{self.name}.db')
