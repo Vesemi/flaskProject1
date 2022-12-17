@@ -3,9 +3,22 @@
     <div class="container">
     <h1>Users</h1>
     <br>
+    {{ name }}
     <form action="/users" METHOD="post">
-        <input type="text" placeholder="Name" name="name">
+        <label>
+            <input type="text" autocomplete="off" placeholder="Name" name="name">
+        </label>
+        <label>
+            <input type="text" autocomplete="off" placeholder="Surname" name="surname">
+        </label>
+
         <input type="submit" value="Add User" class="btn">
     </form>
+
+    {% for user in people %}
+        <li>{{ user[1] }} {{ user[2] }}</li>
+    {% endfor %}
+
+
     </div>
 {% endblock %}
