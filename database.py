@@ -45,3 +45,19 @@ class Database:
         with(self.connection):
             self.connection.execute(users.DROP_TABLE)
             self.create_tables()
+
+    ##Database tasks functions
+    def get_all_tasks(self):
+        self.connection = sqlite3.connect(f'{self.name}.db')
+        return self.connection.execute(tasks.GET_ALL_TASKS).fetchall()
+
+    def get_task_by_contractor(self, contractor):
+        self.connection = sqlite3.connect(f'{self.name}.db')
+        with self.connection:
+            return self.connection.execute(tasks.GET_ALL_USER_TASKS, (contractor,)).fetchall()
+
+    def add_task(self, name, description, created_by, contractor):
+        self.connection = sqlite3.connect(f'{self.name}.db')
+        with self.connection:
+            self.connection.execute(tasks.INSERT_TASK, (name, description, created_by, contractor))
+            self.connection.commit()

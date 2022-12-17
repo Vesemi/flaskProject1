@@ -6,11 +6,26 @@
     {{ name }}
     <form action="/tasks" METHOD="post">
         <label>
-            <input type="text" autocomplete="off" maxlength="20" required placeholder="Name" name="name">
+            <input type="text" autocomplete="off" maxlength="25" required placeholder="Task Name" name="task_name">
         </label>
         <label>
-            <input type="text" autocomplete="off" maxlength="20" required placeholder="Surname" name="surname">
+            <input type="text" autocomplete="off" maxlength="200" required placeholder="Description" name="task_description">
         </label>
+        <label>
+            <input type="text" autocomplete="off" maxlength="25" required placeholder="Created By" name="task_creator">
+        </label>
+        <label>
+            <input type="text" autocomplete="off" maxlength="25" required placeholder="Contractor" name="task_contractor">
+        </label>
+        <label>
+            <input type="text" autocomplete="off" maxlength="25"  placeholder="Date of creation" name="date_created">
+        </label>
+        <label>
+            <input type="text" autocomplete="off" maxlength="25"  placeholder="Date Finished" name="date_finished">
+        </label>
+
+
+
 
         <input type="submit" value="Add User" class="btn">
     </form>
