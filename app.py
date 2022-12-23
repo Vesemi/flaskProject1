@@ -1,7 +1,11 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, flash, redirect, url_for
+from flask_login import LoginManager
+from forms import LoginForm
 import database
+from config import Config
 
 app = Flask(__name__)
+app.config.from_object(Config)
 database = database.Database('users')
 database.create_tables()
 database.drop()
@@ -10,6 +14,16 @@ database.drop()
 @app.route('/')
 def index():
     return render_template("content.html")
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        flash('Login requested for user {}, remember_me={}'.format(
+            form.username.data, form.remember_me.data))
+        return redirect(url_for('index'))
+    return render_template('login.html', title='Logowanie', form=form)
 
 
 @app.route('/users', methods=['POST', 'GET'])
