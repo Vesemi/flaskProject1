@@ -3,31 +3,45 @@
     <div class="container">
     <h1>Tasks</h1>
     <br>
-    {{ name }}
-    <form action="/tasks" METHOD="post">
-        <label>
-            <input type="text" autocomplete="off" maxlength="25" required placeholder="Task Name" name="task_name">
-        </label>
-        <label>
-            <input type="text" autocomplete="off" maxlength="200" required placeholder="Description" name="task_description">
-        </label>
-        <label>
-            <input type="text" autocomplete="off" maxlength="25" required placeholder="Created By" name="task_creator">
-        </label>
-        <label>
-            <input type="text" autocomplete="off" maxlength="25" required placeholder="Contractor" name="task_contractor">
-        </label>
-        <label>
-            <input type="date" autocomplete="off" maxlength="25"  placeholder="Date of creation" name="date_created">
-        </label>
-        <label>
-            <input type="date" autocomplete="off" maxlength="25"  placeholder="Date Finished" name="date_finished">
-        </label>
-
-
-
-
-        <button type="submit"  class="btn btn-primary">Add Task</button>
+    <form action="/tasks" method="post" novalidate>
+    {{ form.hidden_tag() }}
+        {{ form.task_name.label }}
+        {{ form.task_name() }}
+        {% for error in form.task_name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    <br>
+        {{ form.task_description.label }}
+        {{ form.task_description() }}
+        {% for error in form.task_description.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    <br>
+        {{ form.task_creator.label }}
+        {{ form.task_creator() }}
+        {% for error in form.task_creator.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    <br>
+        {{ form.task_contractor.label }}
+        {{ form.task_contractor() }}
+        {% for error in form.task_contractor.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    <br>
+        {{ form.task_date_created.label }}
+        {{ form.task_date_created() }}
+        {% for error in form.task_date_created.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    <br>
+        {{ form.task_date_finished.label }}
+        {{ form.task_date_finished() }}
+        {% for error in form.task_date_finished.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    <br>
+        <p>{{ form.submit(class_="btn btn-primary") }}</p>
     </form>
 
 

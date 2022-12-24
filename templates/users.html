@@ -4,15 +4,29 @@
     <h1>Users</h1>
     <br>
     {{ name }}
-    <form action="/users" METHOD="post">
-        <label>
-            <input type="text" autocomplete="off" maxlength="20" required placeholder="Name" name="name">
-        </label>
-        <label>
-            <input type="text" autocomplete="off" maxlength="20" required placeholder="Surname" name="surname">
-        </label>
 
-        <button type="submit" value="Add User" class="btn btn-primary">
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        <p>
+            {{ form.name.label }}<br>
+            {{ form.name(size=32) }}<br>
+
+        </p>
+        <p>
+            {{ form.surname.label }}<br>
+            {{ form.surname(size=32) }}<br>
+
+        </p>
+        <p>{{ form.submit(class_="btn btn-primary") }}</p>
     </form>
 
     {% for user in people %}

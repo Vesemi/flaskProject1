@@ -1,3 +1,4 @@
+import logging
 import sqlite3
 
 import database_tasks as tasks
@@ -45,6 +46,7 @@ class Database:
     def drop(self):
         with(self.connection):
             self.connection.execute(users.DROP_TABLE)
+            self.connection.execute(tasks.DROP_TABLE)
             self.create_tables()
 
     ##Database tasks functions
