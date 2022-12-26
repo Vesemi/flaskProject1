@@ -10,7 +10,7 @@ class User(db.Model):
     posts = db.relationship('Post', backref='author', lazy='dynamic')
 
     def __repr__(self):
-        return '<User {}>'.format(self.username)
+        return f'<User {self.username}>'
 
 
 class Post(db.Model):
@@ -20,4 +20,18 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return '<Post {}>'.format(self.body)
+        return f'<Post {self.body}>'
+
+
+class Task(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(140))
+    description = db.Column(db.String(512))
+    creator = db.Column(db.Integer, db.ForeignKey('user.id'))
+    contractor = db.Column(db.Integer, db.ForeignKey('user.id'))
+    timestamp_created = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    timestamp_finished = db.Column(db.DateTime, index=True, default=None)
+    comment = db.Column(db.String(512))
+
+    def __repr__(self):
+        return f'<Task {self.name}>'
