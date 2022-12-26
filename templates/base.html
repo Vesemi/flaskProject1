@@ -16,13 +16,13 @@
         {% include "nav.html" %}
         {% block content %}{% endblock %}
         {% include "footer.html" %}
-{% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul>
             {% for message in messages %}
-            <li>{{ message }}</li>
+                <li>{{ message }}</li>
             {% endfor %}
-        </ul>
+            </ul>
         {% endif %}
         {% endwith %}
     <!-- Optional JavaScript -->

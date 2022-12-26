@@ -1,19 +1,14 @@
 from flask import Flask, render_template, request, session, flash, redirect, url_for
 from flask_login import LoginManager
 from forms import *
-import database
+import database, models
 from config import Config
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from extensions import db
+
 
 app = Flask(__name__)
 app.config.from_object(Config)
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-database = database.Database('users')
-database.create_tables()
-database.drop()
-app.debug = True
 
 
 @app.route('/')
@@ -52,6 +47,15 @@ def tasks():
 @app.route('/xd')
 def xd():
     return render_template("xd.html")
+
+
+def register_extensions(app):
+    db.init_app(app)
+    migrate = Migrate(app, db)
+
+
+
+register_extensions(app)
 
 
 if __name__ == "__main__":
