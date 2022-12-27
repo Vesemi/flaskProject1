@@ -1,13 +1,11 @@
-from flask import Flask, render_template, request, session, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_user, logout_user, login_required
 from forms import *
-import database
-from models import User
+from models import *
 from config import Config
 from flask_migrate import Migrate
 from extensions import db, login
 from werkzeug.urls import url_parse
-
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -16,6 +14,7 @@ login.login_view = 'login'
 
 
 @app.route('/')
+@app.route('/index')
 def index():
     return render_template("content.html")
 
@@ -44,13 +43,25 @@ def logout():
     return redirect(url_for('index'))
 
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Congratulations, you are now a registered user!')
+        return redirect(url_for('login'))
+    return render_template('register.html', title='Register', form=form)
+
+
 @app.route('/users', methods=['GET', 'POST'])
 @login_required
 def users():
-    form = AddUser()
-    if form.validate_on_submit():
-        flash(database.add_user(form.name.data, form.surname.data))
-    return render_template("users.html", people=database.get_all_users(), form=form)
+    return render_template("users.html", people=User.query.all())
 
 
 @app.route('/tasks', methods=['GET', 'POST'])
@@ -58,16 +69,12 @@ def users():
 def tasks():
     form = AddTask()
     if form.validate_on_submit():
-        flash('baanananna')
-        database.add_task(form.task_name.data, form.task_description.data,
-                          form.task_creator.data, form.task_contractor.data)
-
-    return render_template("tasks.html", tasks=database.get_all_tasks(), form=form)
-
-
-@app.route('/xd')
-def xd():
-    return render_template("xd.html")
+        task = Task(title=form.title.data, description=form.description.data,
+                    creator=form.creator.data, contractor=form.contractor.data)
+        db.session.rollback()
+        db.session.add(task)
+        db.session.commit()
+    return render_template("tasks.html", tasks=Task.query.all(), form=form)
 
 
 def register_extensions(app):
@@ -76,7 +83,6 @@ def register_extensions(app):
 
 
 register_extensions(app)
-
 
 if __name__ == "__main__":
     app.run(debug=True)

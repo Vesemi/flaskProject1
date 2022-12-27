@@ -5,39 +5,39 @@
     <br>
     <form action="/tasks" method="post" novalidate>
     {{ form.hidden_tag() }}
-        {{ form.task_name.label }}
-        {{ form.task_name() }}
-        {% for error in form.task_name.errors %}
+        {{ form.title.label }}
+        {{ form.title() }}
+        {% for error in form.title.errors %}
             <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
     <br>
-        {{ form.task_description.label }}
-        {{ form.task_description() }}
-        {% for error in form.task_description.errors %}
+        {{ form.description.label }}
+        {{ form.description() }}
+        {% for error in form.description.errors %}
             <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
     <br>
-        {{ form.task_creator.label }}
-        {{ form.task_creator() }}
-        {% for error in form.task_creator.errors %}
+        {{ form.creator.label }}
+        {{ form.creator() }}
+        {% for error in form.creator.errors %}
             <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
     <br>
-        {{ form.task_contractor.label }}
-        {{ form.task_contractor() }}
-        {% for error in form.task_contractor.errors %}
+        {{ form.contractor.label }}
+        {{ form.contractor() }}
+        {% for error in form.contractor.errors %}
             <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
     <br>
-        {{ form.task_date_created.label }}
-        {{ form.task_date_created() }}
-        {% for error in form.task_date_created.errors %}
+        {{ form.timestamp_created.label }}
+        {{ form.timestamp_created() }}
+        {% for error in form.timestamp_created.errors %}
             <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
     <br>
-        {{ form.task_date_finished.label }}
-        {{ form.task_date_finished() }}
-        {% for error in form.task_date_finished.errors %}
+        {{ form.timestamp_finished.label }}
+        {{ form.timestamp_finished() }}
+        {% for error in form.timestamp_finished.errors %}
             <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
     <br>
@@ -61,10 +61,16 @@
 
   {% for task in tasks %}
       <tr>
-        <th scope="row">{{ task[0] }}</th>
-            {% for row in range(1,6) %}
-                <td>{{ task[row] }}</td>
-           {% endfor %}
+        <th scope="row">{{ task.name }}</th>
+
+                <td>{{ task.title }}</td>
+      <td>{{ task.description }}</td>
+      <td>{{ task.creator }}</td>
+      <td>{{ task.contractor }}</td>
+      <td>{{ task.timestamp_created }}</td>
+      <td>{{ task.timestamp_finished }}</td>
+
+
       </tr>
     {% endfor %}
   </tbody>
