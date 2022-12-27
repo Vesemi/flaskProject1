@@ -33,13 +33,13 @@ class Post(db.Model):
 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(140))
+    title = db.Column(db.String(140))
     description = db.Column(db.String(512))
     creator = db.Column(db.Integer, db.ForeignKey('user.id'))
     contractor = db.Column(db.Integer, db.ForeignKey('user.id'))
     timestamp_created = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     timestamp_finished = db.Column(db.DateTime, index=True, default=None)
-    comment = db.Column(db.String(512))
+    comment = db.Column(db.String(512), default=None)
 
     def __repr__(self):
         return f'<Task {self.name}>'
