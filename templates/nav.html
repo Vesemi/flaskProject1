@@ -4,13 +4,12 @@
       <li><a href="{{url_for('login')}}" title="Login">Login</a></li>
       <li><a href="{{url_for('users')}}" title="Users">Users</a></li>
       <li><a href="{{url_for('tasks')}}" title="Tasks">Tasks</a></li>
-      </ul>
-        {% if current_user.is_anonymous %}
-        <a href="{{ url_for('login') }}">Login</a>
-        {% else %}
-      <a href="{{ url_for('user', username=current_user.username) }}">Profile</a>
-        <a href="{{ url_for('logout') }}">Logout</a>
-
-        {% endif %}
+    </ul>
+    {% if current_user.is_anonymous %}
+    <a href="{{ url_for('login') }}">Login</a>
+    {% else %}
+    <a href="{{ url_for('user', username=current_user.username) }}">Profile</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+    {% endif %}
 
   </nav>
