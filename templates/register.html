@@ -2,6 +2,8 @@
 
 {% block content %}
 <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 mb-5">
     <h1>Register</h1><br>
     <form action="" class="form-group" method="post">
         {{ form.hidden_tag() }}
@@ -36,5 +38,7 @@
         <br>
         <p>{{ form.submit(class_="btn btn-primary btn-block") }}</p>
     </form>
+        </div>
+    </div>
 </div>
 {% endblock %}
