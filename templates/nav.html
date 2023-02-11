@@ -5,9 +5,10 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item"><a class="nav-link" href="{{url_for('index')}}" title="Home">Home</a></li>
-      <li class="nav-item"><a class="nav-link" href="{{url_for('login')}}" title="Login">Login</a></li>
+        {% if current_user.is_anonymous == False %}
       <li class="nav-item"><a class="nav-link" href="{{url_for('users')}}" title="Users">Users</a></li>
       <li class="nav-item"><a class="nav-link" href="{{url_for('tasks')}}" title="Tasks">Tasks</a></li>
+        {% endif %}
     </ul>
   </div>
   <div>
