@@ -3,49 +3,57 @@
     <div class="container">
     <h1>Tasks</h1>
     <br>
-    <form action="/tasks" method="post" novalidate>
+    <form action="/tasks" class="" method="post" novalidate>
     {{ form.hidden_tag() }}
-        {{ form.title.label }}
-        {{ form.title() }}
+    <div class="form-group row">
+        {{ form.title.label(class_="col-sm-3 col-form-label") }}
+        {{ form.title(class_="form-control col-sm-9") }}
         {% for error in form.title.errors %}
             <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
-    <br>
-        {{ form.description.label }}
-        {{ form.description() }}
+    </div>
+    <div class="form-group row">
+        {{ form.description.label(class_="col-sm-3 col-form-label") }}
+        {{ form.description(class_="form-control col-sm-9") }}
         {% for error in form.description.errors %}
             <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
-    <br>
-        {{ form.creator.label }}
-        {{ form.creator() }}
+    </div>
+        <div class="form-group row">
+        {{ form.creator.label(class_="col-sm-3 col-form-label") }}
+        {{ form.creator(class_="form-control col-sm-9") }}
         {% for error in form.creator.errors %}
             <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
-    <br>
-        {{ form.contractor.label }}
-        {{ form.contractor() }}
+    </div>
+        <div class="form-group row">
+        {{ form.contractor.label(class_="col-sm-3 col-form-label") }}
+        {{ form.contractor(class_="form-control col-sm-9") }}
         {% for error in form.contractor.errors %}
             <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
-    <br>
-        {{ form.timestamp_created.label }}
-        {{ form.timestamp_created() }}
+    </div>
+        <div class="form-group row">
+        {{ form.timestamp_created.label(class_="col-sm-3 col-form-label") }}
+        {{ form.timestamp_created(class_="form-control col-sm-9") }}
         {% for error in form.timestamp_created.errors %}
             <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
-    <br>
-        {{ form.timestamp_finished.label }}
-        {{ form.timestamp_finished() }}
+    </div>
+        <div class="form-group row">
+        {{ form.timestamp_finished.label(class_="col-sm-3 col-form-label") }}
+        {{ form.timestamp_finished(class_="form-control col-sm-9") }}
         {% for error in form.timestamp_finished.errors %}
             <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
-    <br>
-        <p>{{ form.submit(class_="btn btn-primary") }}</p>
+    </div>
+    
+        <p>{{ form.submit(class_="btn btn-primary ") }}</p>
     </form>
-
-
-    <table class="table">
+    </br>
+    </br>
+</div><div class="table-container">
+    <table class="table table-hover">
   <thead>
     <tr>
         <th scope="col">#</th>
@@ -76,6 +84,6 @@
   </tbody>
 </table>
 
-
-    </div>
+</div>
+    
 {% endblock %}

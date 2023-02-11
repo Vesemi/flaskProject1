@@ -1,10 +1,8 @@
-body{
-    background-color: cadetblue;
+* {
+    margin: 0;
+    padding: 0;
+    
 }
-input:invalid {
-    border: 2px dashed red;
-}
-
-input:valid {
-    border: 2px solid green;
+.container{
+    max-width: 600px;
 }
