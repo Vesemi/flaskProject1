@@ -62,7 +62,7 @@ def register():
 @app.route('/users', methods=['GET', 'POST'])
 @login_required
 def users():
-    return render_template("users.html", people=User.query.all())
+    return render_template("users.html", users=User.query.all())
 
 
 @app.route('/tasks', methods=['GET', 'POST'])
