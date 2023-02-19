@@ -6,9 +6,9 @@
         <div class="col-md-6 mb-5">
             <h1>User: {{ user.username }}</h1>
             <hr>
-            {% for post in posts %}
+            {% for task in tasks %}
             <p>
-            {{ post.author.username }} says: <b>{{ post.body }}</b>
+            {{ task.title }} says: <b>{{ task.description }}</b>
             </p>
             {% endfor %}
         </div>
