@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import DateField, StringField, PasswordField, BooleanField, SubmitField
+from wtforms import DateField, StringField, PasswordField, BooleanField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Optional, EqualTo, ValidationError, Email
 from datetime import date
 from models import User
@@ -16,7 +16,7 @@ class AddTask(FlaskForm):
     title = StringField('Nazwa', validators=[DataRequired()])
     description = StringField('Opis', validators=[DataRequired()])
     creator = StringField('Utworzył', validators=[DataRequired(), ])
-    contractor = StringField('Wykonawca')
+    contractor = SelectField('Wykonawca')
     timestamp_created = DateField('Utworzone', default=date.today(), render_kw={'disabled': 'True'})
     timestamp_finished = DateField('Zakończono', validators=[Optional()])
     submit = SubmitField('Dodaj')

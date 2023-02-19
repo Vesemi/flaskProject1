@@ -68,10 +68,13 @@ def users():
 @app.route('/tasks', methods=['GET', 'POST'])
 @login_required
 def tasks():
+    print([r.username for r in User.query.all()])
     form = AddTask()
+    form.contractor.choices = [r.username for r in User.query.all()]
     if form.validate_on_submit():
+        contractor = User.query.filter_by(username=form.contractor.data).first_or_404()
         task = Task(title=form.title.data, description=form.description.data,
-                    creator=form.creator.data, contractor=form.contractor.data)
+                    creator=form.creator.data, contractor_id=contractor.id)
         db.session.rollback()
         db.session.add(task)
         db.session.commit()
@@ -82,16 +85,13 @@ def tasks():
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
-    posts = [
-        {'author': user, 'body': 'Test post #1'},
-        {'author': user, 'body': 'Test post #2'}
-    ]
-    return render_template('user.html', user=user, posts=posts)
+    tasks = user.tasks
+    return render_template('user.html', user=user, tasks=tasks)
 
 
 def register_extensions(app):
     db.init_app(app)
-    migrate = Migrate(app, db)
+    migrate = Migrate(app, db, render_as_batch=True)
 
 
 register_extensions(app)

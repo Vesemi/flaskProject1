@@ -9,11 +9,11 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    posts = db.relationship('Post', backref='author', lazy='dynamic')
+    tasks = db.relationship('Task', backref='contractor')
     last_seen = db.Column(db.DateTime, default=None)
 
     def __repr__(self):
-        return f'<User {self.username}>'
+        return f'{self.username}'
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -22,28 +22,26 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
 
-class Post(db.Model):
+class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.String(140))
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-    def __repr__(self):
-        return f'<Post {self.body}>'
+    task = db.Column(db.Integer, db.ForeignKey('task.id'))
+    text = db.Column(db.String(512))
+    creator = db.Column(db.Integer)
+    timestamp_created = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(140))
     description = db.Column(db.String(512))
-    creator = db.Column(db.Integer, db.ForeignKey('user.id'))
-    contractor = db.Column(db.Integer, db.ForeignKey('user.id'))
+    creator = db.Column(db.Integer)
+    contractor_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     timestamp_created = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     timestamp_finished = db.Column(db.DateTime, index=True, default=None)
-    comment = db.Column(db.String(512), default=None)
+    comment = db.relationship('Comment', backref='comments')
 
     def __repr__(self):
-        return f'<Task {self.name}>'
+        return f'{self.title}'
 
 
 @login.user_loader
