@@ -18,7 +18,7 @@ class LoginForm(FlaskForm):
 class AddTask(FlaskForm):
     title = StringField('Nazwa', validators=[DataRequired()])
     description = StringField('Opis', validators=[DataRequired()], widget=TextArea())
-    creator = StringField('Utworzył', validators=[DataRequired(), ])
+    creator = StringField('Utworzył', validators=[DataRequired(), ], render_kw={'disabled': 'True'})
     contractor = SelectField('Wykonawca')
     timestamp_created = DateField('Utworzone', default=date.today(), render_kw={'disabled': 'True'})
     timestamp_finished = DateField('Zakończono', validators=[Optional()])
