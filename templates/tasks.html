@@ -42,19 +42,19 @@
                             {{ form2.edit(class_="w-100 btn btn-lg btn-secondary") }}
                         </div>
                         </form>
+                        <form action="{{ url_for('deletetask', id=task.id) }}" class="" method="post" novalidate>
+                        <div class="button col-md-12 text-center">
+                            <p>{{ form2.delete(class_="w-100 btn btn-lg btn-secondary") }}</p>
+                        </div>
+                    </form>
                     {% endif %}
-
 
                     <form action="{{ url_for('finishtask', id=task.id) }}" class="" method="post" novalidate>
                         <div class="button col-md-12 text-center">
                             <p>{{ form2.finish(class_="w-100 btn btn-lg btn-secondary") }}</p>
                         </div>
                     </form>
-                    <form action="{{ url_for('deletetask', id=task.id) }}" class="" method="post" novalidate>
-                        <div class="button col-md-12 text-center">
-                            <p>{{ form2.delete(class_="w-100 btn btn-lg btn-secondary") }}</p>
-                        </div>
-                    </form>
+
                         {% for comment in task.comment %}
                         <p> {{ comment.text }}</p>
                         <p> {{ comment.creator }}</p>
