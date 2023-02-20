@@ -69,17 +69,9 @@ def users():
 @login_required
 def tasks():
     print([r.username for r in User.query.all()])
-    form = AddTask()
     form2 = TaskButtons()
-    form.contractor.choices = [r.username for r in User.query.all()]
-    if form.validate_on_submit():
-        contractor = User.query.filter_by(username=form.contractor.data).first_or_404()
-        task = Task(title=form.title.data, description=form.description.data,
-                    creator=form.creator.data, contractor_id=contractor.id)
-        db.session.rollback()
-        db.session.add(task)
-        db.session.commit()
-    return render_template("tasks.html", tasks=Task.query.all(), form=form, form2=form2)
+
+    return render_template("tasks.html", tasks=Task.query.all(), form2=form2)
 
 
 @app.route('/addtask', methods=['GET', 'POST'])
@@ -88,7 +80,7 @@ def addtask():
     form = AddTask()
     form.contractor.choices = [r.username for r in User.query.all()]
     form.creator.data = User.query.filter_by(username=str(current_user)).first_or_404()
-    if form.validate_on_submit():
+    if form.is_submitted():
         contractor = User.query.filter_by(username=form.contractor.data).first_or_404()
         task = Task(title=form.title.data, description=form.description.data,
                     creator=form.creator.data, contractor_id=contractor.id)
@@ -101,18 +93,31 @@ def addtask():
 @app.route('/edittask/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edittask(id):
-    task = Task.query.filter_by(id=id).first()
-    contractor = User.query.filter_by(id=task.contractor_id).first_or_404()
-    form = AddTask('Edytuj zadanie')
-    form.creator.data = task.creator
+    form = EditTask()
     form.contractor.choices = [r.username for r in User.query.all()]
-    form.contractor.data = contractor.username
-    form.description.data = task.description
-    form.title.data = task.title
-    form.timestamp_created.data = task.timestamp_created
-    form.timestamp_finished.data = task.timestamp_finished
+    if form.submit.data:
+        if form.validate_on_submit():
+            task = Task.query.filter_by(id=id).first()
+            contractor = User.query.filter_by(username=form.contractor.data).first_or_404()
+            task.contractor_id = contractor.id
+            task.description = form.description.data
+            task.title = form.title.data
+            db.session.commit()
+            return redirect(url_for('tasks'))
 
-    return render_template("edittask.html", form=form)
+    else:
+        task = Task.query.filter_by(id=id).first()
+        contractor = User.query.filter_by(id=task.contractor_id).first_or_404()
+        creator = User.query.filter_by(id=task.creator_id).first_or_404()
+        form.creator.data = creator.username
+        #form.contractor.choices = [r.username for r in User.query.all()]
+        form.contractor.data = contractor.username
+        form.description.data = task.description
+        form.title.data = task.title
+        form.timestamp_created.data = task.timestamp_created
+        form.timestamp_finished.data = task.timestamp_finished
+
+        return render_template("edittask.html", form=form, id=id)
 
 
 @app.route('/deletetask/<int:id>', methods=['GET', 'POST'])

@@ -25,6 +25,16 @@ class AddTask(FlaskForm):
     submit = SubmitField('Dodaj')
 
 
+class EditTask(FlaskForm):
+    title = StringField('Nazwa')
+    description = StringField('Opis', widget=TextArea())
+    creator = StringField('Utworzył', render_kw={'disabled': 'True'})
+    contractor = SelectField('Wykonawca')
+    timestamp_created = DateField('Utworzone', default=date.today(), render_kw={'disabled': 'True'})
+    timestamp_finished = DateField('Zakończono', validators=[Optional()])
+    submit = SubmitField('Zapisz')
+
+
 class TaskButtons(FlaskForm):
     delete = SubmitField('Skasuj')
     finish = SubmitField('Zakończ')
