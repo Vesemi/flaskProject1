@@ -70,6 +70,7 @@ def users():
 def tasks():
     print([r.username for r in User.query.all()])
     form = AddTask()
+    form2 = TaskButtons()
     form.contractor.choices = [r.username for r in User.query.all()]
     if form.validate_on_submit():
         contractor = User.query.filter_by(username=form.contractor.data).first_or_404()
@@ -78,7 +79,23 @@ def tasks():
         db.session.rollback()
         db.session.add(task)
         db.session.commit()
-    return render_template("tasks.html", tasks=Task.query.all(), form=form)
+    return render_template("tasks.html", tasks=Task.query.all(), form=form, form2=form2)
+
+
+@app.route('/edittask/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edittask(id):
+    task = Task.query.filter_by(id=id).first()
+    contractor = User.query.filter_by(id=task.contractor_id).first_or_404()
+    form = AddTask()
+    form.creator.data = task.creator
+    form.contractor.data = contractor.username
+    form.description.data = task.description
+    form.title.data = task.title
+    form.timestamp_created.data = task.timestamp_created
+    form.timestamp_finished.data = task.timestamp_finished
+
+    return render_template("edittask.html", form=form)
 
 
 @app.route('/user/<username>')

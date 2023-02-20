@@ -1,7 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import DateField, StringField, PasswordField, BooleanField, SubmitField, SelectField
+from wtforms import DateField, StringField,  PasswordField, BooleanField, SubmitField, SelectField, HiddenField
 from wtforms.validators import DataRequired, Optional, EqualTo, ValidationError, Email
 from datetime import date
+
+from wtforms.widgets import TextArea
+
 from models import User
 
 
@@ -14,12 +17,18 @@ class LoginForm(FlaskForm):
 
 class AddTask(FlaskForm):
     title = StringField('Nazwa', validators=[DataRequired()])
-    description = StringField('Opis', validators=[DataRequired()])
+    description = StringField('Opis', validators=[DataRequired()], widget=TextArea())
     creator = StringField('Utworzył', validators=[DataRequired(), ])
     contractor = SelectField('Wykonawca')
     timestamp_created = DateField('Utworzone', default=date.today(), render_kw={'disabled': 'True'})
     timestamp_finished = DateField('Zakończono', validators=[Optional()])
     submit = SubmitField('Dodaj')
+
+
+class TaskButtons(FlaskForm):
+    delete = SubmitField('Skasuj')
+    finish = SubmitField('Zakończ')
+    edit = SubmitField('Edytuj')
 
 
 class RegistrationForm(FlaskForm):

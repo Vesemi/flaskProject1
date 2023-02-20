@@ -1,65 +1,5 @@
 {% extends "base.html" %}
 {% block content  %}
-<div class="loginBox text-center">
-    <main class="form-task w-100 m-auto">
-        <div class="row justify-content-center">
-        <div class="col-md-12 mb-5">
-            <h1 class="h3 mb-3 fw-normal">Tasks</h1>
-            <br>
-            <form action="/tasks" class="" method="post" novalidate>
-            {{ form.hidden_tag() }}
-            <div class="form-group row">
-                {{ form.title.label(class_="col-sm-3 col-form-label") }}
-                {{ form.title(class_="form-control col-sm-9") }}
-                {% for error in form.title.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </div>
-            <div class="form-group row">
-                {{ form.description.label(class_="col-sm-3 col-form-label") }}
-                {{ form.description(class_="form-control col-sm-9") }}
-                {% for error in form.description.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </div>
-                <div class="form-group row">
-                {{ form.creator.label(class_="col-sm-3 col-form-label") }}
-                {{ form.creator(class_="form-control col-sm-9") }}
-                {% for error in form.creator.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </div>
-                <div class="form-group row">
-                {{ form.contractor.label(class_="col-sm-3 col-form-label") }}
-                {{ form.contractor(class_="form-control col-sm-9") }}
-                {% for error in form.contractor.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </div>
-                <div class="form-group row">
-                {{ form.timestamp_created.label(class_="col-sm-3 col-form-label") }}
-                {{ form.timestamp_created(class_="form-control col-sm-9") }}
-                {% for error in form.timestamp_created.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </div>
-                <div class="form-group row">
-                {{ form.timestamp_finished.label(class_="col-sm-3 col-form-label") }}
-                {{ form.timestamp_finished(class_="form-control col-sm-9") }}
-                {% for error in form.timestamp_finished.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </div>
-            </br>
-            <div class="button col-md-12 text-center">
-                <p>{{ form.submit(class_="w-100 btn btn-lg btn-primary") }}</p>
-            </div>
-            </form>
-        </div>
-        </div>
-    
-    </main>
-</div>
 
 <div class="container main ">
 <div class="table-container container-fluid table-responsive">
@@ -95,7 +35,30 @@
             </tr>
             <tr class="row table-width">
                 <td colspan="6" class="hiddenRow">
-                    <div id="a{{ task.id }}" class="accordian-body collapse text-break hiddenDescription text-secondary">{{ task.description }}</div>
+                    <div id="a{{ task.id }}" class="accordian-body collapse text-break hiddenDescription text-secondary">{{ task.description }}
+                    <form action="{{ url_for('edittask', id=task.id) }}" class="" method="post" novalidate>
+                        <div class="button col-md-12 text-center">
+                            {{ form2.edit(class_="w-100 btn btn-lg btn-secondary") }}
+                        </div>
+                    </form>
+                    <form action="{{ url_for('finishtask', id=task.id) }}" class="" method="post" novalidate>
+                        <div class="button col-md-12 text-center">
+                            <p>{{ form2.finish(class_="w-100 btn btn-lg btn-secondary") }}</p>
+                        </div>
+                    </form>
+                    <form action="{{ url_for('deletetask', id=task.id) }}" class="" method="post" novalidate>
+                        <div class="button col-md-12 text-center">
+                            <p>{{ form2.delete(class_="w-100 btn btn-lg btn-secondary") }}</p>
+                        </div>
+                    </form>
+                        {% for comment in task.comment %}
+                        <p> {{ comment.text }}</p>
+                        <p> {{ comment.creator }}</p>
+                        <p> {{ comment.timestamp_created }}</p>
+
+                    {%  endfor %}
+                    </div>
+
                 </td>
             </tr>
             {% endfor %}
