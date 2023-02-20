@@ -132,16 +132,9 @@ def deletetask(id):
 @login_required
 def finishtask(id):
     task = Task.query.filter_by(id=id).first()
-    contractor = User.query.filter_by(id=task.contractor_id).first_or_404()
-    form = AddTask()
-    form.creator.data = task.creator
-    form.contractor.data = contractor.username
-    form.description.data = task.description
-    form.title.data = task.title
-    form.timestamp_created.data = task.timestamp_created
-    form.timestamp_finished.data = task.timestamp_finished
-
-    return render_template("edittask.html", form=form)
+    task.timestamp_finished = datetime.utcnow()
+    db.session.commit()
+    return redirect(url_for('tasks'))
 
 
 @app.route('/user/<username>')
