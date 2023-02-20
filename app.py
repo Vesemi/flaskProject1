@@ -87,8 +87,9 @@ def tasks():
 def edittask(id):
     task = Task.query.filter_by(id=id).first()
     contractor = User.query.filter_by(id=task.contractor_id).first_or_404()
-    form = AddTask()
+    form = AddTask('Edytuj zadanie')
     form.creator.data = task.creator
+    form.contractor.choices = [r.username for r in User.query.all()]
     form.contractor.data = contractor.username
     form.description.data = task.description
     form.title.data = task.title
@@ -96,6 +97,7 @@ def edittask(id):
     form.timestamp_finished.data = task.timestamp_finished
 
     return render_template("edittask.html", form=form)
+
 
 @app.route('/deletetask/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -111,6 +113,7 @@ def deletetask(id):
     form.timestamp_finished.data = task.timestamp_finished
 
     return render_template("edittask.html", form=form)
+
 
 @app.route('/finishtask/<int:id>', methods=['GET', 'POST'])
 @login_required
