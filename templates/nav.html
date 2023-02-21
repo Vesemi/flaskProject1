@@ -1,9 +1,12 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom">
   <div class="container-fluid">
-    <a class="navbar-brand">NavTask</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
     <span class="navbar-toggler-icon"></span>
   </button>
+  <div class="logo">
+    <svg class="bi icon-nav" width="30" height="24"><use xlink:href="#navTask"/></svg>
+    <a class="navbar-brand">NavTask</a>
+  </div>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav me-auto mb-2 mb-sm-0">
       <li class="nav-item"><a class="nav-link" href="{{url_for('index')}}" title="Home">Home</a></li>

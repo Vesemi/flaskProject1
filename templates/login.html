@@ -3,22 +3,22 @@
 {% block content %}
 <div class="loginBox text-center">
     <main class="form-signin w-100 m-auto">
-        <!-- <img class="mb-4" src="" alt="" width="72" height="57"> -->
-        <h1 class="h3 mb-3 fw-normal">Logowanie</h1><br>
+        <svg class="bi icon-nav pb-4" width="120" height="96"><use xlink:href="#navTask"/></svg>
+        <h3 class="h3 mb-3 fw-normal">Logowanie</h3><br>
         <form action="" class="form-group"  method="post" novalidate>
             {{ form.hidden_tag() }}
-            <div class="form-floating">
-                {{ form.username.label(class_="form-label") }}
+            <div class="form-group text-left">
                 {{ form.username(class_="form-control") }}
+                {{ form.username.label(class_="form-control-placeholder") }}
                 {% for error in form.username.errors %}
                 <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
             </div>
 
 
-            <div class="form-floating">
-                {{ form.password.label(class_="form-label") }}<br>
-                {{ form.password(class_="form-control") }}<br>
+            <div class="form-group text-left">
+                {{ form.password(class_="form-control") }}
+                {{ form.password.label(class_="form-control-placeholder") }}
                 {% for error in form.password.errors %}
                 <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}

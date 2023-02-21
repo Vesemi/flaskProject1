@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content  %}
 
-<div class="container main ">
+<div class="container main pt-5">
 <div class="table-container container-fluid table-responsive">
 	
 	<h3 class="mb-4 text-center">Lista zadań</h3>
@@ -18,7 +18,7 @@
                 <th class="col" scope="col">Data Zakończenia</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="myGroup">
 
         {% for task in tasks %}
             <tr class="row accordion-toggle collapsed table-width text-secondary" data-toggle="collapse" data-target="#a{{ task.id }}">
@@ -35,26 +35,28 @@
             </tr>
             <tr class="row table-width">
                 <td colspan="6" class="hiddenRow">
-                    <div id="a{{ task.id }}" class="accordian-body collapse text-break hiddenDescription text-secondary">{{ task.description }}
+                    <div id="a{{ task.id }}" class="accordian-body collapse text-break hiddenDescription text-secondary" data-parent="#myGroup">
+                        <a class="full-text">{{ task.description }} </a>
+                        <br>
+                    <div  class="btn-group btn-group-sm pt-4" role="group">
                     {% if task.creator == current_user %}
+                    <div class="btn btn-secondary p-0 m-0 fit-cont">
                     <form action="{{ url_for('edittask', id=task.id) }}" class="" method="post" novalidate>
-                        <div class="button col-md-12 text-center">
-                            {{ form2.edit(class_="w-100 btn btn-lg btn-secondary") }}
-                        </div>
-                        </form>
-                        <form action="{{ url_for('deletetask', id=task.id) }}" class="" method="post" novalidate>
-                        <div class="button col-md-12 text-center">
-                            <p>{{ form2.delete(class_="w-100 btn btn-lg btn-secondary") }}</p>
-                        </div>
+                            {{ form2.edit(class_="btn btn-lg btn-secondary") }}
                     </form>
+                    </div>
+                    <div class="btn btn-secondary p-0 m-0 fit-cont">
+                    <form action="{{ url_for('deletetask', id=task.id) }}" class="" method="post" novalidate>
+                            {{ form2.delete(class_="btn btn-lg btn-secondary") }}
+                    </form>
+                    </div>
                     {% endif %}
-
+                    <div class="btn btn-secondary p-0 m-0 fit-cont">
                     <form action="{{ url_for('finishtask', id=task.id) }}" class="" method="post" novalidate>
-                        <div class="button col-md-12 text-center">
-                            <p>{{ form2.finish(class_="w-100 btn btn-lg btn-secondary") }}</p>
-                        </div>
+                            {{ form2.finish(class_="btn btn-lg btn-secondary") }}
                     </form>
-
+                    </div>
+                    </div>
                         {% for comment in task.comment %}
                         <p> {{ comment.text }}</p>
                         <p> {{ comment.creator }}</p>
