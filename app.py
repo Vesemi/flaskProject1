@@ -27,7 +27,7 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password')
+            flash('Nieprawidłowe hasło bądź login!')
             return redirect(url_for('login'))
 
         login_user(user, remember=form.remember_me.data)
@@ -54,7 +54,7 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Congratulations, you are now a registered user!')
+        flash('Rejestracja poprawna')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
@@ -70,8 +70,8 @@ def users():
 def tasks():
     print([r.username for r in User.query.all()])
     form2 = TaskButtons()
-
-    return render_template("tasks.html", tasks=Task.query.all(), form2=form2)
+    comment_form = AddComment()
+    return render_template("tasks.html", tasks=Task.query.all(), form2=form2, comment_form=comment_form)
 
 
 @app.route('/addtask', methods=['GET', 'POST'])
@@ -79,14 +79,17 @@ def tasks():
 def addtask():
     form = AddTask()
     form.contractor.choices = [r.username for r in User.query.all()]
-    form.creator.data = User.query.filter_by(username=str(current_user)).first_or_404()
-    if form.is_submitted():
+    form.creator.data = current_user
+    if form.validate_on_submit():
         contractor = User.query.filter_by(username=form.contractor.data).first_or_404()
+        creator = User.query.filter_by(username=str(current_user)).first_or_404()
         task = Task(title=form.title.data, description=form.description.data,
-                    creator=form.creator.data, contractor_id=contractor.id)
+                    creator_id=creator.id, contractor_id=contractor.id,
+                    timestamp_deadline=form.timestamp_deadline.data)
         db.session.rollback()
         db.session.add(task)
         db.session.commit()
+        flash(f'Zadanie {task.title} zostało pomyślnie dodane!')
     return render_template("addtask.html", form=form)
 
 
@@ -110,12 +113,11 @@ def edittask(id):
         contractor = User.query.filter_by(id=task.contractor_id).first_or_404()
         creator = User.query.filter_by(id=task.creator_id).first_or_404()
         form.creator.data = creator.username
-        #form.contractor.choices = [r.username for r in User.query.all()]
         form.contractor.data = contractor.username
         form.description.data = task.description
         form.title.data = task.title
         form.timestamp_created.data = task.timestamp_created
-        form.timestamp_finished.data = task.timestamp_finished
+        form.timestamp_deadline.data = task.timestamp_deadline
 
         return render_template("edittask.html", form=form, id=id)
 

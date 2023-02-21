@@ -16,12 +16,13 @@ class LoginForm(FlaskForm):
 
 
 class AddTask(FlaskForm):
-    title = StringField('Nazwa', validators=[DataRequired()])
-    description = StringField('Opis', validators=[DataRequired()], widget=TextArea())
+    title = StringField('Nazwa', validators=[DataRequired(), ])
+    description = StringField('Opis', validators=[DataRequired(), ], widget=TextArea())
     creator = StringField('Utworzył', validators=[DataRequired(), ], render_kw={'disabled': 'True'})
     contractor = SelectField('Wykonawca')
     timestamp_created = DateField('Utworzone', default=date.today(), render_kw={'disabled': 'True'})
     timestamp_finished = DateField('Zakończono', validators=[Optional()])
+    timestamp_deadline = DateField('Termin', validators=[DataRequired(), ])
     submit = SubmitField('Dodaj')
 
 
@@ -32,6 +33,7 @@ class EditTask(FlaskForm):
     contractor = SelectField('Wykonawca')
     timestamp_created = DateField('Utworzone', default=date.today(), render_kw={'disabled': 'True'})
     timestamp_finished = DateField('Zakończono', validators=[Optional()])
+    timestamp_deadline = DateField('Termin', validators=[DataRequired(), ])
     submit = SubmitField('Zapisz')
 
 
@@ -39,6 +41,11 @@ class TaskButtons(FlaskForm):
     delete = SubmitField('Skasuj')
     finish = SubmitField('Zakończ')
     edit = SubmitField('Edytuj')
+
+
+class AddComment(FlaskForm):
+    text = StringField('Opis', validators=[DataRequired()], widget=TextArea())
+    submit = SubmitField('Dodaj')
 
 
 class RegistrationForm(FlaskForm):
@@ -51,9 +58,9 @@ class RegistrationForm(FlaskForm):
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user is not None:
-            raise ValidationError('Please use a different username.')
+            raise ValidationError('Nazwa użytkownika niedostępna.')
 
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
-            raise ValidationError('Please use a different email address.')
+            raise ValidationError('Nieprawidłowy adres e-mail.')

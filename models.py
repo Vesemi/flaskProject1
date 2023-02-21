@@ -39,6 +39,7 @@ class Task(db.Model):
     contractor_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     timestamp_created = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     timestamp_finished = db.Column(db.DateTime, index=True, default=None)
+    timestamp_deadline = db.Column(db.DateTime, index=True, default=None)
     comment = db.relationship('Comment', backref='comments')
 
     def __repr__(self):
