@@ -11,6 +11,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     tasks = db.relationship('Task', backref='contractor', foreign_keys="[Task.contractor_id]")
     tasks2 = db.relationship('Task', backref='creator', foreign_keys="[Task.creator_id]")
+    comment = db.relationship('Comment', backref='creator', foreign_keys="[Comment.creator_id]")
     last_seen = db.Column(db.DateTime, default=None)
 
     def __repr__(self):
@@ -27,7 +28,7 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     task = db.Column(db.Integer, db.ForeignKey('task.id'))
     text = db.Column(db.String(512))
-    creator = db.Column(db.Integer)
+    creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     timestamp_created = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
 

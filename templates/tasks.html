@@ -56,6 +56,11 @@
                             {{ form2.finish(class_="btn btn-lg btn-secondary") }}
                     </form>
                     </div>
+                    <div class="btn btn-secondary p-0 m-0 fit-cont">
+                    <form action="{{ url_for('task', id=task.id) }}" class="" method="post" novalidate>
+                            {{ form2.comment(class_="btn btn-lg btn-secondary") }}
+                    </form>
+                    </div>
                     </div>
                         {% for comment in task.comment %}
                         <p> {{ comment.text }}</p>

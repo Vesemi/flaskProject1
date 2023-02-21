@@ -41,6 +41,7 @@ class TaskButtons(FlaskForm):
     delete = SubmitField('Skasuj')
     finish = SubmitField('Zakończ')
     edit = SubmitField('Edytuj')
+    comment = SubmitField('Komentarze')
 
 
 class AddComment(FlaskForm):

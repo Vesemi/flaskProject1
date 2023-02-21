@@ -68,10 +68,24 @@ def users():
 @app.route('/tasks', methods=['GET', 'POST'])
 @login_required
 def tasks():
-    print([r.username for r in User.query.all()])
     form2 = TaskButtons()
+    return render_template("tasks.html", tasks=Task.query.all(), form2=form2)
+
+
+@app.route('/task/<int:id>', methods=['GET', 'POST'])
+@login_required
+def task(id):
+    form2 = TaskButtons()
+    current_task = Task.query.filter_by(id=id).first()
+    # form2.comment.label.text = str(len(current_task.comment))
     comment_form = AddComment()
-    return render_template("tasks.html", tasks=Task.query.all(), form2=form2, comment_form=comment_form)
+    if comment_form.validate_on_submit():
+        creator = User.query.filter_by(username=str(current_user)).first()
+        comment = Comment(text=comment_form.text.data, creator_id=creator.id, task=id)
+        db.session.rollback()
+        db.session.add(comment)
+        db.session.commit()
+    return render_template("task.html", task=current_task, form2=form2, comment_form=comment_form)
 
 
 @app.route('/addtask', methods=['GET', 'POST'])
