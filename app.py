@@ -5,7 +5,6 @@ from models import *
 from config import Config
 from flask_migrate import Migrate
 from extensions import db, login
-from werkzeug.urls import url_parse
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -14,8 +13,10 @@ login.login_view = 'login'
 
 
 @app.route('/')
+@login_required
 def index():
-    return render_template("content.html")
+    form2 = TaskButtons()
+    return render_template("content.html", tasks=Task.query.filter_by(contractor_id=current_user.id), form2=form2)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -31,7 +32,7 @@ def login():
 
         login_user(user, remember=form.remember_me.data)
         return redirect(url_for('index'))
-    return render_template('login.html', title='Sign In', form=form)
+    return render_template('login.html', title='Logowanie', form=form)
 
 
 @app.route('/logout')
