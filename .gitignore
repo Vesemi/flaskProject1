@@ -2,4 +2,4 @@
 /flaskProject1env/
 /.idea/
 /migrations/
-*.db
+/*.db
