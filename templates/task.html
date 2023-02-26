@@ -1,14 +1,16 @@
 {% extends "base.html" %}
 {% block content  %}
 
-<div class="container main pt-5">
-<div class="table-container container-fluid table-responsive">
-	
+<div class="loginBox text-center">
+    <main class="form-task w-100 m-auto">
+        <div class="row justify-content-center">
+        <div class="col-md-12 mb-5">
 	<h3 class="mb-4 text-center">{{ task.title }}</h3>
-    <div class="col-md-7">	
 <a class="full-text">{{ task.description }} </a>
+        {{ current_user.email }}
     <form action="{{ url_for('task', id=task.id) }}" class="" method="post" novalidate>
         {{ comment_form.hidden_tag() }}
+
         <div class="form-group row">
             {{ comment_form.text(class_="form-control") }}
             {{ comment_form.text.label(class_="form-control-placeholder") }}
@@ -39,20 +41,19 @@
             <form action="{{ url_for('finishtask', id=task.id) }}" class="" method="post" novalidate>
                     {{ form2.finish(class_="btn btn-lg btn-secondary") }}
             </form>
-            </div>
+            </div></div>
 
                 {% for comment in task.comment %}
+                <div class=" pt-3">
                 <p> {{ comment.text }}</p>
-                <p> {{ comment.creator }}</p>
-                <p> {{ comment.timestamp_created }}</p>
 
+                    <p class="d-inline pr-4"> {{ comment.creator }}</p>
+                    <p class="d-inline pr-4"> {{ comment.timestamp_created }}</p>
+                        <hr></div>
             {%  endfor %}
-            </div>
 
+        </div>
+        </div></main></div>
 
-    </div>
-
-</div>
-</div>
 
 {% endblock %}

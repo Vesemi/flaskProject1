@@ -44,7 +44,7 @@
                 <div class="form-group row">
                 
                 {{ form.timestamp_deadline(class_="form-control") }}
-                {{ form.timestamp_deadline.label(class_="form-control-placeholder") }}
+                {{ form.timestamp_deadline.label(class_="form-control-placeholder label-disabled") }}
                 {% for error in form.timestamp_deadline.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
