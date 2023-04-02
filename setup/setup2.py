@@ -3,6 +3,7 @@ import sys
 
 
 def create_nginx_and_gunicorn_files(domena, projekt):
+
     # Wczytanie plików nginx oraz gunicorn
     plik_nginxa = ''
     plik_nginxa_template = open('/var/www/' + projekt + '/setup/nginx_file').readlines()
