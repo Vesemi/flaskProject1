@@ -5,6 +5,7 @@ from models import *
 from config import Config
 from flask_migrate import Migrate
 from extensions import db, login
+from routes import *
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -107,9 +108,14 @@ def addtask():
 @app.route('/edittask/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edittask(id):
-    form = EditTask()
+    task = Task.query.filter_by(id=id).first()
+    creator = User.query.filter_by(id=task.creator_id).first_or_404()
+    contractor = User.query.filter_by(id=task.contractor_id).first_or_404()
+    form = AddTask(title=task.title, description=task.description, contractor=contractor.username,
+                   timestamp_deadline=task.timestamp_deadline, timestamp_created=task.timestamp_created,
+                   creator=creator.username)
     form.contractor.choices = [r.username for r in User.query.all()]
-    if form.submit.data:
+    if request.method == 'POST':
         if form.validate_on_submit():
             task = Task.query.filter_by(id=id).first()
             contractor = User.query.filter_by(username=form.contractor.data).first_or_404()
@@ -119,18 +125,9 @@ def edittask(id):
             db.session.commit()
             return redirect(url_for('tasks'))
 
-    else:
-        task = Task.query.filter_by(id=id).first()
-        contractor = User.query.filter_by(id=task.contractor_id).first_or_404()
-        creator = User.query.filter_by(id=task.creator_id).first_or_404()
-        form.creator.data = creator.username
-        form.contractor.data = contractor.username
-        form.description.data = task.description
-        form.title.data = task.title
-        form.timestamp_created.data = task.timestamp_created
-        form.timestamp_deadline.data = task.timestamp_deadline
+    form.creator.data = creator.username
 
-        return render_template("edittask.html", form=form, id=id)
+    return render_template("edittask.html", form=form, id=id)
 
 
 @app.route('/deletetask/<int:id>', methods=['GET', 'POST'])

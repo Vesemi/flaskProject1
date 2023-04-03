@@ -7,7 +7,7 @@
         <div class="col-md-12 mb-5">
             <h1 class="h3 mb-3 fw-normal">Tasks</h1>
             <br>
-            <form action="/edittask/{{ id }}" class="" method="post" novalidate>
+            <form action="/edittask/{{ id }}" class="" method="POST" novalidate>
             {{ form.hidden_tag() }}
             <div class="form-group row">
                 {{ form.title.label(class_="col-sm-3 col-form-label") }}
