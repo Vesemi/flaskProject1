@@ -125,8 +125,6 @@ def edittask(id):
             db.session.commit()
             return redirect(url_for('tasks'))
 
-    form.creator.data = creator.username
-
     return render_template("edittask.html", form=form, id=id)
 
 
