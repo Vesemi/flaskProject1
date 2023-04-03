@@ -75,10 +75,8 @@ def tasks():
 def task(id):
     form2 = TaskButtons()
     current_task = Task.query.filter_by(id=id).first()
-    # form2.comment.label.text = str(len(current_task.comment))
     comment_form = AddComment()
     if comment_form.validate_on_submit():
-        print('banana')
         creator = User.query.filter_by(username=str(current_user)).first()
         comment = Comment(text=comment_form.text.data, creator_id=creator.id, task=id)
         db.session.rollback()
