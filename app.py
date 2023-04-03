@@ -82,6 +82,7 @@ def task(id):
         db.session.rollback()
         db.session.add(comment)
         db.session.commit()
+        return redirect(url_for('task', id=id))
     return render_template("task.html", task=current_task, form2=form2, comment_form=comment_form)
 
 
