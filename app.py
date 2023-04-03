@@ -1,3 +1,5 @@
+import datetime
+
 from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_user, logout_user, login_required
 from forms import *
@@ -79,11 +81,16 @@ def task(id):
     if comment_form.validate_on_submit():
         creator = User.query.filter_by(username=str(current_user)).first()
         comment = Comment(text=comment_form.text.data, creator_id=creator.id, task=id)
-        db.session.rollback()
-        db.session.add(comment)
-        db.session.commit()
+        add_comment(comment)
         return redirect(url_for('task', id=id))
     return render_template("task.html", task=current_task, form2=form2, comment_form=comment_form)
+
+
+def add_comment(comment):
+    comment = comment
+    db.session.rollback()
+    db.session.add(comment)
+    db.session.commit()
 
 
 @app.route('/addtask', methods=['GET', 'POST'])
@@ -98,9 +105,12 @@ def addtask():
         task = Task(title=form.title.data, description=form.description.data,
                     creator_id=creator.id, contractor_id=contractor.id,
                     timestamp_deadline=form.timestamp_deadline.data)
+
         db.session.rollback()
         db.session.add(task)
         db.session.commit()
+        comment = Comment(text=f'Task added on {datetime.utcnow()}', creator_id=0, task=task.id)
+        add_comment(comment)
         flash(f'Zadanie {task.title} zostało pomyślnie dodane!')
         return redirect(url_for('addtask'))
     return render_template("addtask.html", form=form)
@@ -124,6 +134,8 @@ def edittask(id):
             task.description = form.description.data
             task.title = form.title.data
             db.session.commit()
+            comment = Comment(text=f'Task edited by {current_user} on {datetime.utcnow()}', creator_id=0, task=id)
+            add_comment(comment)
             return redirect(url_for('tasks'))
 
     return render_template("edittask.html", form=form, id=id)
@@ -143,6 +155,8 @@ def finishtask(id):
     task = Task.query.filter_by(id=id).first()
     task.timestamp_finished = datetime.utcnow()
     db.session.commit()
+    comment = Comment(text=f'Task finished by {current_user} on {datetime.utcnow()}', creator_id=0, task=task.id)
+    add_comment(comment)
     return redirect(url_for('tasks'))
 
 
