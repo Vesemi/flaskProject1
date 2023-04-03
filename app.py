@@ -78,6 +78,7 @@ def task(id):
     # form2.comment.label.text = str(len(current_task.comment))
     comment_form = AddComment()
     if comment_form.validate_on_submit():
+        print('banana')
         creator = User.query.filter_by(username=str(current_user)).first()
         comment = Comment(text=comment_form.text.data, creator_id=creator.id, task=id)
         db.session.rollback()
@@ -102,13 +103,14 @@ def addtask():
         db.session.add(task)
         db.session.commit()
         flash(f'Zadanie {task.title} zostało pomyślnie dodane!')
+        return redirect(url_for('addtask'))
     return render_template("addtask.html", form=form)
 
 
 @app.route('/edittask/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edittask(id):
-    task = Task.query.filter_by(id=id).first()
+    task = Task.query.filter_by(id=id).first_or_404()
     creator = User.query.filter_by(id=task.creator_id).first_or_404()
     contractor = User.query.filter_by(id=task.contractor_id).first_or_404()
     form = AddTask(title=task.title, description=task.description, contractor=contractor.username,

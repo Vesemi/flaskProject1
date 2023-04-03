@@ -37,23 +37,23 @@
                     <div  class="btn-group btn-group-sm pt-4" role="group">
                     {% if task.creator == current_user %}
                     <div class="btn btn-secondary p-0 m-0 fit-cont">
-                    <form action="{{ url_for('edittask', id=task.id) }}" class="" method="post" novalidate>
+                    <form action="{{ url_for('edittask', id=task.id) }}" class="" method="get" novalidate>
                             {{ form2.edit(class_="btn btn-lg btn-secondary") }}
                     </form>
                     </div>
                     <div class="btn btn-secondary p-0 m-0 fit-cont">
-                    <form action="{{ url_for('deletetask', id=task.id) }}" class="" method="post" novalidate>
+                    <form action="{{ url_for('deletetask', id=task.id) }}" class="" method="get" novalidate>
                             {{ form2.delete(class_="btn btn-lg btn-secondary") }}
                     </form>
                     </div>
                     {% endif %}
                     <div class="btn btn-secondary p-0 m-0 fit-cont">
-                    <form action="{{ url_for('finishtask', id=task.id) }}" class="" method="post" novalidate>
+                    <form action="{{ url_for('finishtask', id=task.id) }}" class="" method="get" novalidate>
                             {{ form2.finish(class_="btn btn-lg btn-secondary") }}
                     </form>
                     </div>
                     <div class="btn btn-secondary p-0 m-0 fit-cont">
-                    <form action="{{ url_for('task', id=task.id) }}" class="" method="post" novalidate>
+                    <form action="{{ url_for('task', id=task.id) }}" class="" method="get" novalidate>
                             {{ form2.comment(class_="btn btn-lg btn-secondary") }}
                     </form>
                     </div>
