@@ -31,7 +31,7 @@ class Comment(db.Model):
     task = db.Column(db.Integer, db.ForeignKey('task.id'))
     text = db.Column(db.String(512))
     creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    timestamp_created = db.Column(db.DateTime, index=True, default=datetime.utcnow().astimezone())
+    timestamp_created = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
 
 class Task(db.Model):
