@@ -7,6 +7,7 @@ from models import *
 from config import Config
 from flask_migrate import Migrate
 from extensions import db, login
+from waitress import serve
 from routes import *
 
 app = Flask(__name__)
