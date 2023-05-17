@@ -156,10 +156,15 @@ def deletetask(id):
 @login_required
 def finishtask(id):
     task = Task.query.filter_by(id=id).first()
-    task.timestamp_finished = datetime.utcnow()
-    db.session.commit()
-    comment = Comment(text=f'Task finished by {current_user} on {datetime.utcnow()}', creator_id=0, task=task.id)
-    add_comment(comment)
+    if task.timestamp_finished == None:
+        task.description = f'Zakończono - {task.description}'
+        task.timestamp_finished = datetime.utcnow()
+        db.session.commit()
+        comment = Comment(text=f'Task finished by {current_user} on {datetime.utcnow()}', creator_id=0, task=task.id)
+        add_comment(comment)
+        flash('Zadanie zakończono!')
+    else:
+        flash('Zadanie jest już ukończone!')
     return redirect(url_for('tasks'))
 
 
