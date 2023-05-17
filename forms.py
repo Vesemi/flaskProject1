@@ -22,7 +22,7 @@ class AddTask(FlaskForm):
     contractor = SelectField('Wykonawca')
     timestamp_created = DateField('Utworzone', default=date.today(), render_kw={'disabled': 'True'})
     timestamp_finished = DateField('Zakończono', validators=[Optional()])
-    timestamp_deadline = DateField('Termin', validators=[DataRequired(), ])
+    timestamp_deadline = DateField('Termin', validators=[Optional()])
     submit = SubmitField('Dodaj')
 
 
@@ -33,7 +33,7 @@ class EditTask(FlaskForm):
     contractor = SelectField('Wykonawca')
     timestamp_created = DateField('Utworzone', default=date.today(), render_kw={'disabled': 'True'})
     timestamp_finished = DateField('Zakończono', validators=[Optional()])
-    timestamp_deadline = DateField('Termin', validators=[DataRequired(), ])
+    timestamp_deadline = DateField('Termin', validators=[Optional()])
     submit = SubmitField('Zapisz')
 
 

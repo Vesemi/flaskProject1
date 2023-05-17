@@ -166,7 +166,6 @@ def finishtask(id):
 @app.route('/user/<username>')
 @login_required
 def user(username):
-    #user = User.query.filter_by(username=username).first_or_404()
     user = current_user
     if user.colors == 'dark':
         user.colors = 'white'
@@ -176,6 +175,17 @@ def user(username):
     db.session.commit()
     tasks = user.tasks
     return render_template('user.html', user=user, tasks=tasks)
+
+@app.route('/change_colors')
+@login_required
+def change_colors():
+    user = current_user
+    if user.colors == 'dark':
+        user.colors = 'white'
+    else:
+        user.colors = 'dark'
+    db.session.commit()
+    return redirect(url_for('index'))
 
 
 def register_extensions(app):
