@@ -3,7 +3,11 @@
 
 	<h3 class="mb-4 text-center">Lista zadań</h3>
     <div class="col-md-7">
+    {% if current_user.colors == 'dark' %}
         <table class="table text-light table-condensed table-striped custom-table">
+      {% else %}
+      <table class="table text-dark table-condensed table-striped custom-table">
+    {% endif %}
         <thead>
             <tr class="row table-width">
                 <th scope="col">#</th>

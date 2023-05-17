@@ -7,7 +7,7 @@ from models import *
 from config import Config
 from flask_migrate import Migrate
 from extensions import db, login
-from waitress import serve
+from flask import get_flashed_messages
 from routes import *
 
 app = Flask(__name__)
@@ -97,6 +97,7 @@ def add_comment(comment):
 @app.route('/addtask', methods=['GET', 'POST'])
 @login_required
 def addtask():
+    get_flashed_messages()
     form = AddTask()
     form.contractor.choices = [r.username for r in User.query.all()]
     form.creator.data = current_user
@@ -146,6 +147,7 @@ def edittask(id):
 @login_required
 def deletetask(id):
     Task.query.filter_by(id=id).delete()
+    Comment.query.filter_by(task=id).delete()
     db.session.commit()
     return redirect(url_for('tasks'))
 
@@ -164,7 +166,14 @@ def finishtask(id):
 @app.route('/user/<username>')
 @login_required
 def user(username):
-    user = User.query.filter_by(username=username).first_or_404()
+    #user = User.query.filter_by(username=username).first_or_404()
+    user = current_user
+    if user.colors == 'dark':
+        user.colors = 'white'
+    else:
+        user.colors = 'dark'
+
+    db.session.commit()
     tasks = user.tasks
     return render_template('user.html', user=user, tasks=tasks)
 

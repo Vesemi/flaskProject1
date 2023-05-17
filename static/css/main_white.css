@@ -66,7 +66,7 @@ border-top: none;}
   -o-transition: .3s all ease;
   transition: .3s all ease; }
   .custom-table tbody tr:hover td, .custom-table tbody tr:focus td {
-    color: #fff; }
+    color: #000; }
     .custom-table tbody tr:hover .text-truncate, .custom-table tbody tr:focus .text-truncate {
       color: #28a745; }
 
@@ -136,7 +136,7 @@ padding-left:30px;
 }}
 
 .icon-nav{
-fill: white;}
+fill: black;}
 
 .icon-nav2{
 fill: #6c757d;}
@@ -158,7 +158,7 @@ top: 0;
 padding: 7px 0 0 10px;
 transition: all 200ms;
 opacity: 0.5;
-color: #fff;
+color: #000;
 }
 
 .form-control:focus + .form-control-placeholder,
@@ -172,20 +172,20 @@ top:10px;
 .form-control {
 border: 0;
 outline: 0;
-border-bottom: 2px solid #eee;
+border-bottom: 2px solid #000;
 font-size: 16px;
-color: #ccc;
+color: #000;
 background-color: transparent;
 
 }
 
 .form-control:focus {
   border: 0;
-  color: #fff;
+  color: #000;
   background-color: transparent;
-  border-color: #fff;
+  border-color: #000;
   outline: 0;
-  border-bottom: 2px solid #fff;
+  border-bottom: 2px solid #000;
   box-shadow: 0 0 0 0.2rem transparent;
 }
 
@@ -245,7 +245,7 @@ pointer-events: none;}
     transition: none; } }
 
 option{
-background-color:  #ffffff;
+background-color:  #00000;
 }
 
 ::-webkit-calendar-picker-indicator {

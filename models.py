@@ -1,4 +1,7 @@
 from datetime import datetime
+
+from sqlalchemy.orm import backref
+
 from extensions import db, login
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -12,9 +15,10 @@ class User(UserMixin, db.Model):
     access = db.Column(db.Integer)
     last_seen = db.Column(db.DateTime, default=None)
 # Relations
-    tasks = db.relationship('Task', backref='contractor', foreign_keys="[Task.contractor_id]")
-    tasks2 = db.relationship('Task', backref='creator', foreign_keys="[Task.creator_id]")
-    comment = db.relationship('Comment', backref='creator', foreign_keys="[Comment.creator_id]")
+    tasks = db.relationship('Task', backref='contractor', foreign_keys="[Task.contractor_id]", cascade="all,delete")
+    tasks2 = db.relationship('Task', backref='creator', foreign_keys="[Task.creator_id]", cascade="all,delete")
+    comment = db.relationship('Comment', backref='creator', foreign_keys="[Comment.creator_id]", cascade="all,delete")
+    colors = db.Column(db.String(128), default='dark')
 
     def __repr__(self):
         return f'{self.username}'
@@ -43,7 +47,7 @@ class Task(db.Model):
     timestamp_created = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     timestamp_finished = db.Column(db.DateTime, index=True, default=None)
     timestamp_deadline = db.Column(db.DateTime, index=True, default=None)
-    comment = db.relationship('Comment', backref='comments')
+    comment = db.relationship('Comment', cascade="all, delete")
 
     def __repr__(self):
         return f'{self.title}'
