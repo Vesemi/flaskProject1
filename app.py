@@ -172,12 +172,7 @@ def finishtask(id):
 @login_required
 def user(username):
     user = current_user
-    if user.colors == 'dark':
-        user.colors = 'white'
-    else:
-        user.colors = 'dark'
 
-    db.session.commit()
     tasks = user.tasks
     return render_template('user.html', user=user, tasks=tasks)
 
